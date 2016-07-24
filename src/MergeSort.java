@@ -1,7 +1,5 @@
 
 
-import java.util.Arrays;
-
 public class MergeSort {
 
 	// static int somatorio = 0;
