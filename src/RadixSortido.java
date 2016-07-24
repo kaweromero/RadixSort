@@ -71,7 +71,7 @@ public class RadixSortido {
 				AUX[i] = Integer.parseInt(Character.toString(arrayNum[i].charAt(posicao)));
 
 			}
-			// Armazenar os valores em um array e ordenar aqui!!!
+			//Separa os digitos em arrays diferentes. A ideia é ordenar cada um separadamente e depois juntar
 
 			if (posicao == 0) {
 				this.aOrdenar0 = AUX;

@@ -2,17 +2,7 @@ import java.util.Random;
 
 public class NumeroAleatorio {
 
-	/*public static void main(String[] args) {
-
-		String[] array = null;
-		array = geraNumeros(10);
-
-		for (int i = 0; i < 10; i++) {
-
-			System.out.println(array[i]);
-		}
-	}*/
-
+	//Gera um número aleatorio de 1000000000 a 9999999999
 	public static String[] geraNumeros(int quantNumeros) {
 
 		String[] array = new String[quantNumeros];
