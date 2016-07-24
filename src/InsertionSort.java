@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class InsertionSort {
 
-	public static void insertionSort(int [] array) {  
+	public int[] insertionSort(int [] array) {  
 		int x =0;
 		int y = 0;
 		for (int i = 0; i < array.length; i++)  {  
@@ -19,6 +19,8 @@ public class InsertionSort {
 		}  
 		System.out.println(Arrays.toString(array));
 		System.out.println("Trocas: "+x+ "  Iterações: "+y);
+		
+		return array;
 	} 
 	
 	

@@ -1,33 +1,74 @@
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 public class RadixSortido {
 
 	NumeroAleatorio geraNum = new NumeroAleatorio();
 	int tamanhoArray = 0;
 	String[] arrayNum = new String[tamanhoArray];
-	String[] aOrdenar0 = new String[tamanhoArray];
-	String[] aOrdenar1 = new String[tamanhoArray];
-	String[] aOrdenar2 = new String[tamanhoArray];
-	String[] aOrdenar3 = new String[tamanhoArray];
-	String[] aOrdenar4 = new String[tamanhoArray];
-	String[] aOrdenar5 = new String[tamanhoArray];
-	String[] aOrdenar6 = new String[tamanhoArray];
-	String[] aOrdenar7 = new String[tamanhoArray];
-	String[] aOrdenar8 = new String[tamanhoArray];
-	String[] aOrdenar9 = new String[tamanhoArray];
+	int[] aOrdenar0 = new int[tamanhoArray];
+	int[] aOrdenar1 = new int[tamanhoArray];
+	int[] aOrdenar2 = new int[tamanhoArray];
+	int[] aOrdenar3 = new int[tamanhoArray];
+	int[] aOrdenar4 = new int[tamanhoArray];
+	int[] aOrdenar5 = new int[tamanhoArray];
+	int[] aOrdenar6 = new int[tamanhoArray];
+	int[] aOrdenar7 = new int[tamanhoArray];
+	int[] aOrdenar8 = new int[tamanhoArray];
+	int[] aOrdenar9 = new int[tamanhoArray];
 
 	public int[] separaDigito(int quantNumero) {
-		// 1000000000 a 9999999999
+		// 1000000000 a 9999999999	
+		/*
+		1. Realize uma análise experimental relativa a variações do algoritmo de ordenação Radix sort.
+		Considere o TEMPO DE EXECUÇÃO (em nanosegundos) como variável dependente (variável
+		resposta do experimento) e os seguintes aspectos como variáveis independentes (fatores do
+		experimento):
+
+		a. ALGORITMO AUXILIAR DO RADIX SORT:
+
+		i. Bubble sort;
+		ii. Insertion sort;
+		iii. Merge sort;
+		iv. Counting sort.
+		
+		b. TIPO DE VETOR DE ENTRADA:
+
+		i. Vetor com elementos ordenados de maneira crescente;
+		ii. Vetor com elementos ordenados de maneira decrescente;
+		iii. Vetor com elementos aleatórios.
+		
+		c. TAMANHO DO VETOR DE ENTRADA (n):
+
+		i. 20;
+		ii. 200;
+		iii. 2000.
+
+		Dados os fatores e níveis anteriormente detalhados, tem-se 36 tratamentos, devendo ser
+		realizadas 100 repetições para cada, totalizando 3.600 ensaios. Apresente os resultados
+		(média das 100 execuções para cada tratamento) de forma gráfica (sugestão: utilizar o Excel)
+		e comente tais resultados com base na complexidade dos algoritmos auxiliares utilizados.
+
+		Observações:
+
+		* O experimento deve ser executado utilizando Java (sem necessidade de interface gráfica), fazendo-
+		se uso do método System.nanoTime().
+		* Os elementos a serem ordenados devem ser números inteiros entre 1000000000 e 9999999999.
+		*Não se deve criar arrays aleatórios distintos como entrada para cada algoritmo. Os arrays devem
+		ser os mesmos para realizar a comparação.
+		*Deve-se atentar para não passar como entrada de um algoritmo a saída de outro algoritmo (pois,
+		neste caso, a entrada sempre estará ordenada).
+*/
 		this.tamanhoArray = quantNumero;
 		arrayNum = geraNum.geraNumeros(quantNumero);
-		
-		
-		for (int posicao= 9; posicao >= 0; posicao--) {
-			String[] AUX = new String[quantNumero];
+
+		for (int posicao = 9; posicao >= 0; posicao--) {
+			int[] AUX = new int[quantNumero];
 
 			for (int i = 0; i < quantNumero; i++) {
 
-				System.out.println(arrayNum[i].charAt(posicao));
-				AUX[i] = Character.toString(arrayNum[i].charAt(posicao));
+				// System.out.println(arrayNum[i].charAt(posicao));
+				AUX[i] = Integer.parseInt(Character.toString(arrayNum[i].charAt(posicao)));
 
 			}
 			// Armazenar os valores em um array e ordenar aqui!!!
@@ -64,7 +105,7 @@ public class RadixSortido {
 			}
 
 		}
-		
+
 		return null;
 
 	}
@@ -73,9 +114,13 @@ public class RadixSortido {
 		// TODO Auto-generated method stub
 		RadixSortido ex = new RadixSortido();
 		ex.separaDigito(5);
-		
-		//System.out.println("HUE1 "+ex.aOrdenar8[3]);
-		//System.out.println("HUE2 "+ex.aOrdenar8[4]);
+
+		// System.out.println("HUE1 "+ex.aOrdenar8[3]);
+		// System.out.println("HUE2 "+ex.aOrdenar8[4]);
+		System.out.println(Arrays.toString(ex.aOrdenar0));
+		InsertionSort insertion = new InsertionSort();
+		ex.aOrdenar0 = insertion.insertionSort(ex.aOrdenar0);
+		System.out.println(Arrays.toString(ex.aOrdenar0));
 	}
 
 }
