@@ -1,73 +1,74 @@
 
-import java.util.*;
+import java.util.Random;
 
-class RadixSort {
+public class RadixSort {
 
-	// A utility function to get maximum value in arr[]
-	static int getMax(int arr[], int n) {
-		int mx = arr[0];
-		for (int i = 1; i < n; i++)
-			if (arr[i] > mx)
-				mx = arr[i];
-		return mx;
-	}
+    // Main function to test performance sorting 1 million integers.
+    // Results in about 220 ms on a 2.3 Ghz Core i5 processor w/4GB 1333 Mhz RAM
+    public static void main(String[] args){
+    	
+        final int SIZE = 10;
 
-	// A function to do counting sort of arr[] according to
-	// the digit represented by exp.
-	static void countSort(int arr[], int n, int exp) {
-		int output[] = new int[n]; // output array
-		int i;
-		int count[] = new int[10];
-		Arrays.fill(count, 0);
+      //  Random r = new Random();
+        long[] test = new long[SIZE];
+        
+        test = NumeroAleatorio.geraNumeros(10);
 
-		// Store count of occurrences in count[]
-		for (i = 0; i < n; i++)
-			count[(arr[i] / exp) % 10]++;
+      //  for (int i = 0; i < SIZE; i++){
+        //    test[i] = r.nextInt(Integer.MAX_VALUE);
+       // }
 
-		// Change count[i] so that count[i] now contains
-		// actual position of this digit in output[]
-		for (i = 1; i < 10; i++)
-			count[i] += count[i - 1];
+        long start = System.currentTimeMillis();
+        test = sort(test);
+        long end = System.currentTimeMillis();
 
-		// Build the output array
-		for (i = n - 1; i >= 0; i--) {
-			output[count[(arr[i] / exp) % 10] - 1] = arr[i];
-			count[(arr[i] / exp) % 10]--;
-		}
+        System.out.println("Ordenado-----");
+        for (long i : test){
+            System.out.println(i);
+        }
 
-		// Copy the output array to arr[], so that arr[] now
-		// contains sorted numbers according to curent digit
-		for (i = 0; i < n; i++)
-			arr[i] = output[i];
-	}
+        System.out.println(end-start);
+    }
 
-	// The main function to that sorts arr[] of size n using
-	// Radix Sort
-	static void radixsort(int arr[], int n) {
-		// Find the maximum number to know number of digits
-		print(arr, n);
-		System.out.println();
-		int m = getMax(arr, n);
+    // Sort the numbers beginning with least-significant digit
+    public static long[] sort(long[] input){
 
-		// Do counting sort for every digit. Note that instead
-		// of passing digit number, exp is passed. exp is 10^i
-		// where i is current digit number
-		for (int exp = 1; m / exp > 0; exp *= 10)
-			countSort(arr, n, exp);
-	}
+        // Largest place for a 32-bit int is the 1 billion's place
+        for(int place=1; place <= 1000000000; place *= 10){
+            // Use counting sort at each digit's place
+            input = countingSort(input, place);
+        }
 
-	// A utility function to print an array
-	static void print(int arr[], int n) {
-		for (int i = 0; i < n; i++)
-			System.out.print(arr[i] + " ");
-	}
+        return input;
+    }
 
-	/* Driver function to check for above function */
-	public static void main(String[] args) {
-		int arr[] = { 170, 45, 75, 90, 802, 24, 2, 66 };
-		int n = arr.length;
-		radixsort(arr, n);
-		print(arr, n);
-	}
+    private static long[] countingSort(long[] input, int place){
+        long[] out = new long[input.length];
+
+        int[] count = new int[10];
+
+        for(int i=0; i < input.length; i++){
+            int digit = getDigit(input[i], place);
+            count[digit] += 1;
+        }
+
+        for(int i=1; i < count.length; i++){
+            count[i] += count[i-1];
+        }
+
+        for(int i = input.length-1; i >= 0; i--){
+            int digit = getDigit(input[i], place);
+
+            out[count[digit]-1] = input[i];
+            count[digit]--;
+        }
+
+        return out;
+
+    }
+
+    private static int getDigit(long value, int digitPlace){
+        return (int) ((value/digitPlace ) % 10);
+    }
+
 }
-/* This code is contributed by Devesh Agrawal */
