@@ -1,5 +1,5 @@
 
-import java.util.Random;
+import java.util.Arrays;
 
 public class RadixSort {
 
@@ -11,6 +11,7 @@ public class RadixSort {
 
       //  Random r = new Random();
         long[] test = new long[SIZE];
+        long[] teste = new long[SIZE];
         
         test = NumeroAleatorio.geraNumeros(10);
 
@@ -19,24 +20,41 @@ public class RadixSort {
        // }
 
         long start = System.currentTimeMillis();
-        test = sort(test);
+        teste = sortCounting(test);
         long end = System.currentTimeMillis();
 
         System.out.println("Ordenado-----");
-        for (long i : test){
+        for (long i : teste){
             System.out.println(i);
         }
 
         System.out.println(end-start);
+        
+        teste = sortInsertion(test);
+        for (long i : teste){
+            System.out.println(i);
+        }
+        
     }
 
-    // Sort the numbers beginning with least-significant digit
-    public static long[] sort(long[] input){
+
+    public static long[] sortCounting(long[] input){
+
+      
+        for(int place=1; place <= 1000000000; place *= 10){
+        
+            input = countingSort(input, place);
+        }
+
+        return input;
+    }
+    
+    public static long[] sortInsertion(long[] input){
 
         // Largest place for a 32-bit int is the 1 billion's place
         for(int place=1; place <= 1000000000; place *= 10){
             // Use counting sort at each digit's place
-            input = countingSort(input, place);
+            input = insertionSort(input, place);
         }
 
         return input;
@@ -44,9 +62,8 @@ public class RadixSort {
 
     private static long[] countingSort(long[] input, int place){
         long[] out = new long[input.length];
-
         int[] count = new int[10];
-
+        
         for(int i=0; i < input.length; i++){
             int digit = getDigit(input[i], place);
             count[digit] += 1;
@@ -66,6 +83,28 @@ public class RadixSort {
         return out;
 
     }
+    
+	public static long[] insertionSort(long[] array, int place) {
+		int x = 0;
+		int y = 0;
+		
+		for (int i = 0; i < array.length; i++) {
+			int digit = getDigit(array[i], place);
+			long a = array[i];
+			y++;
+			for (int j = i - 1; j >= 0 && getDigit(array[j], place) > digit; j--, x++) {			
+				//int digit2 = getDigit(array[j], place);
+				
+				array[j + 1] = array[j];
+				array[j] = a;
+
+			}
+		}
+		System.out.println(Arrays.toString(array));
+		System.out.println("Trocas: " + x + "  Iterações: " + y);
+
+		return array;
+	}
 
     private static int getDigit(long value, int digitPlace){
         return (int) ((value/digitPlace ) % 10);
