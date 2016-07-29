@@ -13,7 +13,7 @@ public class NumeroAleatorio {
 
 			array[i] = number = (long) Math.floor(Math.random() * 9_000_000_000L) + 1_000_000_000L;
 			//array[i] = Long.toString(number = (long) Math.floor(Math.random() * 9_000_000_000L) + 1_000_000_000L);
-			System.out.println(number);
+			//System.out.println(number);
 		}
 
 		return array;
