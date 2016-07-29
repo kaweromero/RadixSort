@@ -12,6 +12,14 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import java.awt.Font;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 
 public class RadixSort extends JFrame {
 	private JPanel contentPane;
@@ -19,37 +27,64 @@ public class RadixSort extends JFrame {
 	static long tempoMedioCounting=0;
 	static long tempoMedioBubble=0;
 	static long tempoMedioMerge=0;
+	private JTextField entradaTamanho;
+	JPanel panel = new JPanel();
+	private final ButtonGroup buttonGroup = new ButtonGroup();
+	
 	
 	public RadixSort(){
 		
 		super("GRÁFICOS!");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 900, 600);
+		setBounds(100, 100, 1100, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		JLabel lblOi = new JLabel("Tamanho da entrada do vetor");
+		lblOi.setFont(new Font("Segoe UI", Font.BOLD, 15));
+		lblOi.setBounds(850, 93, 224, 14);
+		contentPane.add(lblOi);
 		
-		JPanel panel = new JPanel();
+		entradaTamanho = new JTextField();
+		entradaTamanho.setBounds(907, 128, 86, 20);
+		contentPane.add(entradaTamanho);
+		entradaTamanho.setColumns(10);
+		
+		JButton btnGo = new JButton("GO!");
+		btnGo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				repaint();
+				metodoSupremo();
+				repaint();
+				validate();
+			}
+		});
+		btnGo.setBounds(907, 171, 89, 23);
+		contentPane.add(btnGo);
+		
+		JRadioButton botaoOrdeando = new JRadioButton("ORDENADO");
+		buttonGroup.add(botaoOrdeando);
+		botaoOrdeando.setFont(new Font("Segoe UI", Font.BOLD, 12));
+		botaoOrdeando.setBounds(850, 212, 109, 23);
+		contentPane.add(botaoOrdeando);
+		
+		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("DECRESCENTE");
+		buttonGroup.add(rdbtnNewRadioButton_1);
+		rdbtnNewRadioButton_1.setFont(new Font("Segoe UI", Font.BOLD, 12));
+		rdbtnNewRadioButton_1.setBounds(850, 253, 120, 23);
+		contentPane.add(rdbtnNewRadioButton_1);
+		
+		JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("Aleat\u00F3rio");
+		buttonGroup.add(rdbtnNewRadioButton_2);
+		rdbtnNewRadioButton_2.setFont(new Font("Segoe UI", Font.BOLD, 12));
+		rdbtnNewRadioButton_2.setBounds(850, 295, 109, 23);
+		contentPane.add(rdbtnNewRadioButton_2);
+		
+	
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.setBounds(69, 44, 751, 469);
-		
-		
-		DefaultCategoryDataset dpd = new DefaultCategoryDataset();
-		dpd.setValue(25,"Provedor","A");
-		dpd.setValue(42.5,"Provedor","B");
-		dpd.setValue(17.5,"Provedor","C");
-		dpd.setValue(15,"Provedor","D");
-		
-		JFreeChart grafico = ChartFactory.createBarChart3D("GRÁFICO EM BARRA", "Provedores", "100", dpd);
-				
-		
-		ChartPanel chartPanel = new ChartPanel(grafico);
-		
-		panel.add(chartPanel);
-		panel.repaint();
-		contentPane.add(panel);
 		
 	}
 	
@@ -57,8 +92,9 @@ public class RadixSort extends JFrame {
 	public static void main(String[] args) {
 		
 		RadixSort frame = new RadixSort();
-		//frame.setVisible(true);
-		frame.metodoSupremo();
+		frame.setVisible(true);
+		frame.setResizable(false);
+		//frame.metodoSupremo();
 		
 	}
 	
@@ -66,7 +102,8 @@ public class RadixSort extends JFrame {
 		
 		int SIZE = 0;
 		try{
-		SIZE=Integer.parseInt(JOptionPane.showInputDialog("Insira o tamanho da entrada com 20,200 ou 2000!"));
+			SIZE=Integer.parseInt(entradaTamanho.getText());
+		//SIZE=Integer.parseInt(JOptionPane.showInputDialog("Insira o tamanho da entrada com 20,200 ou 2000!"));
 		}catch(Exception e){
 			JOptionPane.showMessageDialog(null, "Insira os valores corretamente");
 			System.exit(0);
@@ -130,6 +167,31 @@ public class RadixSort extends JFrame {
 		auxiliar = sortMerge(arrayParametro);
 		//
 		//System.out.println("Array depois merge: "+Arrays.toString(arrayParametro));
+		
+		//JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel.setBounds(69, 44, 751, 469);
+		
+		
+		DefaultCategoryDataset dpd = new DefaultCategoryDataset();
+		dpd.setValue(tempoMedioCounting,"CountingSort","Counting");
+		dpd.setValue(tempoMedioInsertion,"InsertionSort","Insertion");
+		dpd.setValue(tempoMedioBubble,"BubbleSort","Bubble");
+		dpd.setValue(tempoMedioMerge,"MergeSort","Merge");
+		
+		JFreeChart grafico = ChartFactory.createBarChart3D("GRÁFICO EM BARRA", "Algoritmos de ordenação", "Tempo em nanosegundos", dpd);
+				
+		ChartPanel chartPanel = new ChartPanel(grafico);
+		
+		panel.removeAll();
+		panel.add(chartPanel);
+		contentPane.add(panel);
+		panel.repaint();
+		contentPane.repaint();
+		contentPane.validate();
+		repaint();
+		
+		//frame.setVisible(true);
 		
 		
 	}
@@ -277,8 +339,6 @@ public class RadixSort extends JFrame {
 
 			}
 		}
-		// System.out.println(Arrays.toString(array));
-		// System.out.println("Trocas: " + x + " Iterações: " + y);
 
 		return array;
 	}
@@ -372,5 +432,4 @@ public class RadixSort extends JFrame {
 	private static int getDigit(long value, int digitPlace) {
 		return (int) ((value / digitPlace) % 10);
 	}
-
 }
