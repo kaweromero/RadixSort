@@ -182,8 +182,8 @@ public class RadixSort {
 		int n1 = meio - inicio + 1;
 		int n2 = fim - meio;
 
-		long left[] = new long[n1 + 1];
-		long right[] = new long[n2 + 1];
+		long left[] = new long[n1];
+		long right[] = new long[n2];
 
 		for (int i = 0; i < n1; i++) {
 			left[i] = array[inicio + i];
@@ -193,13 +193,17 @@ public class RadixSort {
 			right[i] = array[meio + i + 1];
 		}
 
-		left[n1] = INFINITO;
-		right[n2] = INFINITO;
+		//left[n1] = INFINITO;
+		//right[n2] = INFINITO;
 
 		int i = 0;
 		int j = 0;
+		int x = inicio;
 
-		for (int x = inicio; x <= fim; x++) {
+		//for (int x = inicio; x <= fim; x++) {
+		while (i < n1 && j < n2){ 	
+			
+			//System.out.println("Array left> "+Arrays.toString(left));
 			if (getDigit(left[i], place) <= (getDigit(right[j],place))) {
 				array[x] = left[i];
 				i++;
@@ -207,7 +211,21 @@ public class RadixSort {
 				array[x] = right[j];
 				j++;
 			}
+			x++;
 		}
+		
+		 while (i < n1) {
+			   array[x] = left[i];
+			   i++;
+			   x++;
+	    }
+		 
+		 while (j < n2) {
+			   array[x] = right[j];
+			   j++;
+			   x++;
+	    }
+		
 		//System.out.println(Arrays.toString(array));
 		return array;
 	}

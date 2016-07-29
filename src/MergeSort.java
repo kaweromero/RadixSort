@@ -1,4 +1,4 @@
-
+import java.util.Arrays;
 
 public class MergeSort {
 
@@ -50,14 +50,14 @@ public class MergeSort {
 				j++;
 			}
 		}
-		//System.out.println(Arrays.toString(array));
+		System.out.println(Arrays.toString(array));
 		return array;
 	}
 
 	public static void main(String[] args) {
 		MergeSort somax = new MergeSort();
 
-		int array[] = { 2, 3, 1, 5, 4 };
+		int array[] = { 2, 3, 1, 5, 4,2, 3, 1, 5, 4 ,2, 3, 1, 5, 4 ,2, 3, 1, 5, 4  };
 		somax.mergeSort(array, 0, 4);
 
 	}
