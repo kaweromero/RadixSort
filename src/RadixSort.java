@@ -1,60 +1,155 @@
 
+import java.awt.Color;
 import java.util.Arrays;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
-public class RadixSort {
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
 
+public class RadixSort extends JFrame {
+	private JPanel contentPane;
+	static long tempoMedioInsertion=0;
+	static long tempoMedioCounting=0;
+	static long tempoMedioBubble=0;
+	static long tempoMedioMerge=0;
+	
+	public RadixSort(){
+		
+		super("GRÁFICOS!");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 900, 600);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel.setBounds(69, 44, 751, 469);
+		
+		
+		DefaultCategoryDataset dpd = new DefaultCategoryDataset();
+		dpd.setValue(25,"Provedor","A");
+		dpd.setValue(42.5,"Provedor","B");
+		dpd.setValue(17.5,"Provedor","C");
+		dpd.setValue(15,"Provedor","D");
+		
+		JFreeChart grafico = ChartFactory.createBarChart3D("GRÁFICO EM BARRA", "Provedores", "100", dpd);
+				
+		
+		ChartPanel chartPanel = new ChartPanel(grafico);
+		
+		panel.add(chartPanel);
+		panel.repaint();
+		contentPane.add(panel);
+		
+	}
+	
+	
 	public static void main(String[] args) {
+		
+		RadixSort frame = new RadixSort();
+		//frame.setVisible(true);
+		frame.metodoSupremo();
+		
+	}
+	
+	public void metodoSupremo(){
 		
 		int SIZE = 0;
 		try{
 		SIZE=Integer.parseInt(JOptionPane.showInputDialog("Insira o tamanho da entrada com 20,200 ou 2000!"));
 		}catch(Exception e){
 			JOptionPane.showMessageDialog(null, "Insira os valores corretamente");
+			System.exit(0);
 		}
 		long[] arrayNumeros = new long[SIZE];
 		long[] auxiliar = new long[SIZE];
 		long[] arrayParametro = new long[SIZE];
+		
 
 		arrayNumeros = NumeroAleatorio.geraNumeros(SIZE);
+		/////////////////////////////////////////////////////////////////////////////////////////
+		//Usar o array ordenado, irei implementar uma Interface supimpa
+		//System.out.println("Array antes counting: "+Arrays.toString(arrayNumeros));
+		//arrayNumeros=ordenarCounting(arrayNumeros);
+		//System.out.println("Array antes counting: "+Arrays.toString(arrayNumeros));
+		///////////////////////////////////////////////////////////////////////////////////////
 		
-		///////////////////////////////////////
+		/////////////////////////////////////////////////////////////////////////////////////////
+		//Usar o array ordenado DECRESCENTE, irei implementar uma Interface supimpa
+		System.out.println("Array antes InsertionDecrescente: "+Arrays.toString(arrayNumeros));
+		arrayNumeros=ordenarInsertionDecrescente(arrayNumeros);
+		System.out.println("Array antes InsertionDecrescente: "+Arrays.toString(arrayNumeros));
+		///////////////////////////////////////////////////////////////////////////////////////
+		
+		/*
+		 * Para ver os arrays antes e depois de ordenar
+		 * Só remover os comentários dos prints
+		 * NAO RECOMENDO COM ENTRADAS DE 2000 DE TAMANHO!
+		*/
+		
 		arrayParametro = arrayNumeros.clone();
-		 System.out.println("Array antes counting: "+Arrays.toString(arrayParametro));
+		// System.out.println("Array antes counting: "+Arrays.toString(arrayParametro));
 		//
 		 auxiliar =sortCounting(arrayParametro);
 		//
-		System.out.println("Array depois counting: "+Arrays.toString(auxiliar));
+		//System.out.println("Array depois counting: "+Arrays.toString(auxiliar));
 
 		System.out.println();
 		////////////////////////////////////////
 		arrayParametro = arrayNumeros.clone();
-		System.out.println("Array antes insertion: "+Arrays.toString(arrayParametro));
+		//System.out.println("Array antes insertion: "+Arrays.toString(arrayParametro));
 		//
 		auxiliar = sortInsertion(arrayParametro);
 		//
-		System.out.println("Array depois insertion: "+Arrays.toString(auxiliar));
+		//System.out.println("Array depois insertion: "+Arrays.toString(auxiliar));
 
 		System.out.println();
 		/////////////////////////////////////////
 		arrayParametro = arrayNumeros.clone();
-		System.out.println("Array antes Bubble: "+Arrays.toString(arrayParametro));
+		//System.out.println("Array antes Bubble: "+Arrays.toString(arrayParametro));
 		//
 		auxiliar = sortBubble(arrayParametro);
 		//
-		System.out.println("Array depois bubble:"+Arrays.toString(arrayParametro));
+		//System.out.println("Array depois bubble:"+Arrays.toString(arrayParametro));
 
 		System.out.println();
 		////////////////////////////////////////////
 		arrayParametro = arrayNumeros.clone();
-		System.out.println("Array antes merge: "+Arrays.toString(arrayParametro));
+		//System.out.println("Array antes merge: "+Arrays.toString(arrayParametro));
 		//
 		auxiliar = sortMerge(arrayParametro);
 		//
-		System.out.println("Array depois merge: "+Arrays.toString(arrayParametro));
-
+		//System.out.println("Array depois merge: "+Arrays.toString(arrayParametro));
 		
+		
+	}
+	//Só pra ordenar o array inicial
+	public static long[] ordenarCounting(long[] array){
+		
+		for (int place = 1; place <= 1000000000; place *= 10) {
+			array = countingSort(array, place);
+		}
+		
+		return array;
+	}
+
+	public static long[] ordenarInsertionDecrescente(long[] array){
+		
+		for (int place = 1; place <= 1000000000; place *= 10) {
+			array = insertionDecreSort(array, place);
+		}
+		
+		return array;
 	}
 
 	public static long[] sortCounting(long[] input) {
@@ -68,6 +163,8 @@ public class RadixSort {
 			long endCounting = System.nanoTime();
 			tempoTotal= tempoTotal + (endCounting - startCounting);//Vai somando o tempo
 		}
+		tempoMedioCounting= tempoTotal/100;
+		
 		System.out.println("Tempo médio Counting: "+ tempoTotal/100 );//Calcula a média dos 100 ensaios
 		return input;
 	}
@@ -83,6 +180,7 @@ public class RadixSort {
 			long endCounting = System.nanoTime();
 			tempoTotal= tempoTotal + (endCounting - startCounting);
 		}
+		tempoMedioInsertion= tempoTotal/100;
 		System.out.println("Tempo médio Insertion: "+ tempoTotal/100 );
 		return input;
 	}
@@ -98,6 +196,7 @@ public class RadixSort {
 			long endCounting = System.nanoTime();
 			tempoTotal= tempoTotal + (endCounting - startCounting);
 		}
+		tempoMedioBubble= tempoTotal/100;
 		System.out.println("Tempo médio Bubble: "+ tempoTotal/100 );
 		return input;
 	}
@@ -113,6 +212,7 @@ public class RadixSort {
 			long endCounting = System.nanoTime();
 			tempoTotal= tempoTotal + (endCounting - startCounting);
 		}
+		tempoMedioMerge= tempoTotal/100;
 		System.out.println("Tempo médio Merge: "+ tempoTotal/100 );
 		return input;
 	}
@@ -150,6 +250,27 @@ public class RadixSort {
 			long a = array[i];
 			y++;
 			for (int j = i - 1; j >= 0 && getDigit(array[j], place) > digit; j--, x++) {
+
+				array[j + 1] = array[j];
+				array[j] = a;
+
+			}
+		}
+		// System.out.println(Arrays.toString(array));
+		// System.out.println("Trocas: " + x + " Iterações: " + y);
+
+		return array;
+	}
+	
+	public static long[] insertionDecreSort(long[] array, int place) {
+		int x = 0;
+		int y = 0;
+
+		for (int i = 0; i < array.length; i++) {
+			int digit = getDigit(array[i], place);
+			long a = array[i];
+			y++;
+			for (int j = i - 1; j >= 0 && getDigit(array[j], place) < digit; j--, x++) {
 
 				array[j + 1] = array[j];
 				array[j] = a;
