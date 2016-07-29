@@ -2,47 +2,69 @@
 import java.util.Arrays;
 
 public class RadixSort {
-
-    // Main function to test performance sorting 1 million integers.
-    // Results in about 220 ms on a 2.3 Ghz Core i5 processor w/4GB 1333 Mhz RAM
+ final static int INFINITO = Integer.MAX_VALUE;
+ 
     public static void main(String[] args){
     	
         final int SIZE = 10;
+        long[] arrayNumeros = new long[SIZE];
+        long[] auxiliar = new long[SIZE];
+        long[] testcounting = new long[SIZE];
+       
 
-      //  Random r = new Random();
-        long[] test = new long[SIZE];
-        long[] teste = new long[SIZE];
         
-        test = NumeroAleatorio.geraNumeros(10);
+        arrayNumeros = NumeroAleatorio.geraNumeros(SIZE);
 
-      //  for (int i = 0; i < SIZE; i++){
-        //    test[i] = r.nextInt(Integer.MAX_VALUE);
-       // }
-
-        long start = System.currentTimeMillis();
-        teste = sortCounting(test);
-        long end = System.currentTimeMillis();
-
+       // long start = System.currentTimeMillis();
+          
+        testcounting=arrayNumeros.clone();
+        System.out.println("array antes counting: "+Arrays.toString(testcounting));
+        auxiliar = sortCounting(testcounting);
+        System.out.println("array depois counting: "+Arrays.toString(testcounting));
+        
+        // long end = System.currentTimeMillis();
+        System.out.println("Ordenado counting -----");
+        for (long i : auxiliar){
+            System.out.println(i);
+        }
+        //System.out.println(end-start);
+        
+        testcounting=arrayNumeros.clone();
+        System.out.println("array antes insertion: "+Arrays.toString(testcounting));
+        auxiliar = sortInsertion(testcounting);
+         System.out.println("array depois insertion: "+Arrays.toString(testcounting));
+         
         System.out.println("Ordenado-----");
-        for (long i : teste){
+        for (long i : auxiliar){
             System.out.println(i);
         }
-
-        System.out.println(end-start);
+                          
+        testcounting=arrayNumeros.clone();
+        System.out.println("array antes bubble: "+Arrays.toString(testcounting));
+        auxiliar = sortBubble(testcounting);
+        System.out.println("array depois bubble: "+Arrays.toString(testcounting));
         
-        teste = sortInsertion(test);
-        for (long i : teste){
+        System.out.println("Ordenado-----");
+        for (long i : auxiliar){
             System.out.println(i);
         }
         
+        testcounting=arrayNumeros.clone();
+        System.out.println("array antes merge: "+Arrays.toString(testcounting));
+        auxiliar = sortMerge(testcounting);
+        System.out.println("array depois merge: "+Arrays.toString(testcounting));
+        
+        System.out.println("Ordenado-----");
+        for (long i : auxiliar){
+            System.out.println(i);
+        }
     }
 
 
+    
     public static long[] sortCounting(long[] input){
-
-      
-        for(int place=1; place <= 1000000000; place *= 10){
-        
+  
+        for(int place=1; place <= 1000000000; place *= 10){  
             input = countingSort(input, place);
         }
 
@@ -50,16 +72,33 @@ public class RadixSort {
     }
     
     public static long[] sortInsertion(long[] input){
-
-        // Largest place for a 32-bit int is the 1 billion's place
+  
         for(int place=1; place <= 1000000000; place *= 10){
-            // Use counting sort at each digit's place
             input = insertionSort(input, place);
         }
 
         return input;
     }
 
+    public static long[] sortBubble(long[] input){
+
+        for(int place=1; place <= 1000000000; place *= 10){
+            input = bubbleSort(input, place);
+        }
+
+        return input;
+    }
+    
+    public static long[] sortMerge(long[] input){
+
+        for(int place=1; place <= 1000000000; place *= 10){
+            input = mergeSort(input,0,input.length -1, place);
+        }
+
+        return input;
+    }
+    
+    
     private static long[] countingSort(long[] input, int place){
         long[] out = new long[input.length];
         int[] count = new int[10];
@@ -93,31 +132,27 @@ public class RadixSort {
 			long a = array[i];
 			y++;
 			for (int j = i - 1; j >= 0 && getDigit(array[j], place) > digit; j--, x++) {			
-				//int digit2 = getDigit(array[j], place);
-				
+			
 				array[j + 1] = array[j];
 				array[j] = a;
 
 			}
 		}
-		System.out.println(Arrays.toString(array));
-		System.out.println("Trocas: " + x + "  Iterações: " + y);
+		//System.out.println(Arrays.toString(array));
+		//System.out.println("Trocas: " + x + "  Iterações: " + y);
 
 		return array;
 	}
 
-	private static void bubbleSort(long[] array,int place) {
+	private static long[] bubbleSort(long[] array,int place) {
 
-//FALTA AQUI
 		int n = array.length;
 		long temp = 0;
-		//int digit = getDigit(array[i], place);
 		
 		for (int i = 0; i < n; i++) {
 			for (int j = 1; j < (n - i); j++) {
 
-				if (array[j - 1] > array[j]) {
-					// swap the elements!
+				if (getDigit(array[j - 1],place) > getDigit(array[j],place)) {
 					temp = array[j - 1];
 					array[j - 1] = array[j];
 					array[j] = temp;
@@ -125,8 +160,58 @@ public class RadixSort {
 
 			}
 		}
-
+		return array;
 	}
+	
+	public static long[] mergeSort(long array[], int inicio, int fim,int place) {
+
+		if (inicio < fim) {
+
+			int meio = ((inicio + fim) / 2);
+			mergeSort(array, inicio, meio, place);
+			mergeSort(array, meio + 1, fim, place);
+			merge(array, inicio, meio, fim, place);
+
+		}
+
+		return array;
+	}
+
+	public static long[] merge(long[] array, int inicio, int meio, int fim,int place) {
+
+		int n1 = meio - inicio + 1;
+		int n2 = fim - meio;
+
+		long left[] = new long[n1 + 1];
+		long right[] = new long[n2 + 1];
+
+		for (int i = 0; i < n1; i++) {
+			left[i] = array[inicio + i];
+		}
+
+		for (int i = 0; i < n2; i++) {
+			right[i] = array[meio + i + 1];
+		}
+
+		left[n1] = INFINITO;
+		right[n2] = INFINITO;
+
+		int i = 0;
+		int j = 0;
+
+		for (int x = inicio; x <= fim; x++) {
+			if (getDigit(left[i], place) <= (getDigit(right[j],place))) {
+				array[x] = left[i];
+				i++;
+			} else {
+				array[x] = right[j];
+				j++;
+			}
+		}
+		//System.out.println(Arrays.toString(array));
+		return array;
+	}
+
 	
     private static int getDigit(long value, int digitPlace){
         return (int) ((value/digitPlace ) % 10);

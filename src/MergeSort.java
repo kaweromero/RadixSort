@@ -5,21 +5,21 @@ public class MergeSort {
 	// static int somatorio = 0;
 	private final int INFINITO = Integer.MAX_VALUE;
 
-	public int[] soma(int array[], int inicio, int fim) {
+	public int[] mergeSort(int array[], int inicio, int fim) {
 
 		if (inicio < fim) {
 
 			int meio = ((inicio + fim) / 2);
-			soma(array, inicio, meio);
-			soma(array, meio + 1, fim);
-			intercala(array, inicio, meio, fim);
+			mergeSort(array, inicio, meio);
+			mergeSort(array, meio + 1, fim);
+			merge(array, inicio, meio, fim);
 
 		}
 
 		return array;
 	}
 
-	public int[] intercala(int[] array, int inicio, int meio, int fim) {
+	public int[] merge(int[] array, int inicio, int meio, int fim) {
 
 		int n1 = meio - inicio + 1;
 		int n2 = fim - meio;
@@ -58,7 +58,7 @@ public class MergeSort {
 		MergeSort somax = new MergeSort();
 
 		int array[] = { 2, 3, 1, 5, 4 };
-		somax.soma(array, 0, 4);
+		somax.mergeSort(array, 0, 4);
 
 	}
 
