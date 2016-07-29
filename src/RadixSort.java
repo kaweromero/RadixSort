@@ -11,57 +11,65 @@ public class RadixSort {
         long[] auxiliar = new long[SIZE];
         long[] testcounting = new long[SIZE];
        
-
-        
         arrayNumeros = NumeroAleatorio.geraNumeros(SIZE);
 
-       // long start = System.currentTimeMillis();
-          
+       
         testcounting=arrayNumeros.clone();
-        System.out.println("array antes counting: "+Arrays.toString(testcounting));
+        // System.out.println("array antes counting: "+Arrays.toString(testcounting));
+        
+        long startCounting = System.currentTimeMillis();  
         auxiliar = sortCounting(testcounting);
-        System.out.println("array depois counting: "+Arrays.toString(testcounting));
         
-        // long end = System.currentTimeMillis();
-        System.out.println("Ordenado counting -----");
+        long endCounting = System.currentTimeMillis();
+        
+        System.out.println(endCounting-startCounting);
+        
+        //System.out.println("array depois counting: "+Arrays.toString(testcounting));
+              
+       /* System.out.println("Ordenado counting -----");
         for (long i : auxiliar){
             System.out.println(i);
-        }
-        //System.out.println(end-start);
+        }*/
         
         testcounting=arrayNumeros.clone();
-        System.out.println("array antes insertion: "+Arrays.toString(testcounting));
+        long start = System.currentTimeMillis(); 
+        
         auxiliar = sortInsertion(testcounting);
-         System.out.println("array depois insertion: "+Arrays.toString(testcounting));
+        
+        long end = System.currentTimeMillis();
+        
+        
+       // System.out.println("array antes insertion: "+Arrays.toString(testcounting));
+        // System.out.println("array depois insertion: "+Arrays.toString(testcounting));
          
-        System.out.println("Ordenado-----");
+       /* System.out.println("Ordenado-----");
         for (long i : auxiliar){
             System.out.println(i);
-        }
+        }*/
                           
+        // System.out.println("array antes bubble: "+Arrays.toString(testcounting));
+        
         testcounting=arrayNumeros.clone();
-        System.out.println("array antes bubble: "+Arrays.toString(testcounting));
         auxiliar = sortBubble(testcounting);
-        System.out.println("array depois bubble: "+Arrays.toString(testcounting));
         
-        System.out.println("Ordenado-----");
+        //System.out.println("array depois bubble: "+Arrays.toString(testcounting));
+        
+       /* System.out.println("Ordenado-----");
         for (long i : auxiliar){
             System.out.println(i);
-        }
+        }*/
         
         testcounting=arrayNumeros.clone();
-        System.out.println("array antes merge: "+Arrays.toString(testcounting));
         auxiliar = sortMerge(testcounting);
-        System.out.println("array depois merge: "+Arrays.toString(testcounting));
+        //System.out.println("array antes merge: "+Arrays.toString(testcounting));
+        //System.out.println("array depois merge: "+Arrays.toString(testcounting));
         
-        System.out.println("Ordenado-----");
+       /* System.out.println("Ordenado-----");
         for (long i : auxiliar){
             System.out.println(i);
-        }
+        }*/
     }
-
-
-    
+ 
     public static long[] sortCounting(long[] input){
   
         for(int place=1; place <= 1000000000; place *= 10){  
