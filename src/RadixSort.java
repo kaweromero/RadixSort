@@ -51,36 +51,55 @@ public class RadixSort extends JFrame {
 		entradaTamanho.setBounds(907, 128, 86, 20);
 		contentPane.add(entradaTamanho);
 		entradaTamanho.setColumns(10);
+			
+		final JRadioButton botaoOrdenado = new JRadioButton("ORDENADO");
+		buttonGroup.add(botaoOrdenado);
+		botaoOrdenado.setFont(new Font("Segoe UI", Font.BOLD, 12));
+		botaoOrdenado.setBounds(850, 212, 109, 23);
+		contentPane.add(botaoOrdenado);
+		
+		final JRadioButton botaoDecrescente = new JRadioButton("DECRESCENTE");
+		buttonGroup.add(botaoDecrescente);
+		botaoDecrescente.setFont(new Font("Segoe UI", Font.BOLD, 12));
+		botaoDecrescente.setBounds(850, 253, 120, 23);
+		contentPane.add(botaoDecrescente);
+		
+		final JRadioButton botaoAleatorio = new JRadioButton("ALE\u00C1TORIO");
+		buttonGroup.add(botaoAleatorio);
+		botaoAleatorio.setFont(new Font("Segoe UI", Font.BOLD, 12));
+		botaoAleatorio.setBounds(850, 295, 109, 23);
+		contentPane.add(botaoAleatorio);
 		
 		JButton btnGo = new JButton("GO!");
 		btnGo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				repaint();
-				metodoSupremo();
+				
+				try{
+					if(botaoOrdenado.isSelected()){
+					
+					metodoSupremo(1);
+				}
+				if(botaoDecrescente.isSelected()){
+					
+					metodoSupremo(2);
+				}
+				if(botaoAleatorio.isSelected()){
+					
+					metodoSupremo(0);
+				}
 				repaint();
 				validate();
+				}catch(Exception e){
+					JOptionPane.showMessageDialog(null,"Selecione uma opção de entrada. ");
+				}
+				
+				
 			}
 		});
 		btnGo.setBounds(907, 171, 89, 23);
 		contentPane.add(btnGo);
-		
-		JRadioButton botaoOrdeando = new JRadioButton("ORDENADO");
-		buttonGroup.add(botaoOrdeando);
-		botaoOrdeando.setFont(new Font("Segoe UI", Font.BOLD, 12));
-		botaoOrdeando.setBounds(850, 212, 109, 23);
-		contentPane.add(botaoOrdeando);
-		
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("DECRESCENTE");
-		buttonGroup.add(rdbtnNewRadioButton_1);
-		rdbtnNewRadioButton_1.setFont(new Font("Segoe UI", Font.BOLD, 12));
-		rdbtnNewRadioButton_1.setBounds(850, 253, 120, 23);
-		contentPane.add(rdbtnNewRadioButton_1);
-		
-		JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("Aleat\u00F3rio");
-		buttonGroup.add(rdbtnNewRadioButton_2);
-		rdbtnNewRadioButton_2.setFont(new Font("Segoe UI", Font.BOLD, 12));
-		rdbtnNewRadioButton_2.setBounds(850, 295, 109, 23);
-		contentPane.add(rdbtnNewRadioButton_2);
+	
 		
 	
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -98,7 +117,7 @@ public class RadixSort extends JFrame {
 		
 	}
 	
-	public void metodoSupremo(){
+	public void metodoSupremo(int metodoDovetor){
 		
 		int SIZE = 0;
 		try{
@@ -114,18 +133,31 @@ public class RadixSort extends JFrame {
 		
 
 		arrayNumeros = NumeroAleatorio.geraNumeros(SIZE);
+		
+		
+		if(metodoDovetor == 1){
+			
+			arrayNumeros=ordenarCounting(arrayNumeros);
+			
+		}else{
+			if(metodoDovetor == 2){
+				
+				arrayNumeros=ordenarInsertionDecrescente(arrayNumeros);
+			}
+		}
+		
+		
 		/////////////////////////////////////////////////////////////////////////////////////////
 		//Usar o array ordenado, irei implementar uma Interface supimpa
 		//System.out.println("Array antes counting: "+Arrays.toString(arrayNumeros));
-		//arrayNumeros=ordenarCounting(arrayNumeros);
 		//System.out.println("Array antes counting: "+Arrays.toString(arrayNumeros));
 		///////////////////////////////////////////////////////////////////////////////////////
 		
 		/////////////////////////////////////////////////////////////////////////////////////////
 		//Usar o array ordenado DECRESCENTE, irei implementar uma Interface supimpa
-		System.out.println("Array antes InsertionDecrescente: "+Arrays.toString(arrayNumeros));
-		arrayNumeros=ordenarInsertionDecrescente(arrayNumeros);
-		System.out.println("Array antes InsertionDecrescente: "+Arrays.toString(arrayNumeros));
+		//System.out.println("Array antes InsertionDecrescente: "+Arrays.toString(arrayNumeros));
+		
+		//System.out.println("Array antes InsertionDecrescente: "+Arrays.toString(arrayNumeros));
 		///////////////////////////////////////////////////////////////////////////////////////
 		
 		/*
