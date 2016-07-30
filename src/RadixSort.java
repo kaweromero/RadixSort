@@ -20,6 +20,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
+import javax.swing.border.TitledBorder;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class RadixSort extends JFrame {
 	private JPanel contentPane;
@@ -30,6 +33,7 @@ public class RadixSort extends JFrame {
 	private JTextField entradaTamanho;
 	JPanel panel = new JPanel();
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	JLabel labelAguarde = new JLabel("SELECIONE A OPÇÃO...");
 	
 	
 	public RadixSort(){
@@ -48,23 +52,33 @@ public class RadixSort extends JFrame {
 		contentPane.add(lblOi);
 		
 		entradaTamanho = new JTextField();
+		entradaTamanho.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				labelAguarde.setText("SELECIONE A OPÇÃO...");
+			}
+		});
 		entradaTamanho.setBounds(907, 128, 86, 20);
 		contentPane.add(entradaTamanho);
 		entradaTamanho.setColumns(10);
 			
 		final JRadioButton botaoOrdenado = new JRadioButton("ORDENADO");
+		botaoOrdenado.setBackground(new Color(255, 255, 204));
 		buttonGroup.add(botaoOrdenado);
 		botaoOrdenado.setFont(new Font("Segoe UI", Font.BOLD, 12));
 		botaoOrdenado.setBounds(850, 212, 109, 23);
 		contentPane.add(botaoOrdenado);
 		
 		final JRadioButton botaoDecrescente = new JRadioButton("DECRESCENTE");
+		botaoDecrescente.setBackground(new Color(255, 255, 204));
 		buttonGroup.add(botaoDecrescente);
 		botaoDecrescente.setFont(new Font("Segoe UI", Font.BOLD, 12));
 		botaoDecrescente.setBounds(850, 253, 120, 23);
 		contentPane.add(botaoDecrescente);
 		
 		final JRadioButton botaoAleatorio = new JRadioButton("ALE\u00C1TORIO");
+		botaoAleatorio.setBackground(new Color(255, 255, 204));
 		buttonGroup.add(botaoAleatorio);
 		botaoAleatorio.setFont(new Font("Segoe UI", Font.BOLD, 12));
 		botaoAleatorio.setBounds(850, 295, 109, 23);
@@ -93,14 +107,23 @@ public class RadixSort extends JFrame {
 				}catch(Exception e){
 					JOptionPane.showMessageDialog(null,"Selecione uma opção de entrada. ");
 				}
-				
-				
+							
 			}
 		});
 		btnGo.setBounds(907, 171, 89, 23);
 		contentPane.add(btnGo);
-	
 		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_1.setBackground(new Color(255, 255, 204));
+		panel_1.setBounds(826, 29, 248, 503);
+		contentPane.add(panel_1);
+		labelAguarde.setForeground(new Color(255, 51, 0));
+		
+		
+		labelAguarde.setFont(new Font("Segoe UI", Font.BOLD, 27));
+		labelAguarde.setBounds(282, 526, 534, 36);
+		contentPane.add(labelAguarde);
 	
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.setBounds(69, 44, 751, 469);
@@ -119,6 +142,7 @@ public class RadixSort extends JFrame {
 	
 	public void metodoSupremo(int metodoDovetor){
 		
+		
 		int SIZE = 0;
 		try{
 			SIZE=Integer.parseInt(entradaTamanho.getText());
@@ -133,33 +157,20 @@ public class RadixSort extends JFrame {
 		
 
 		arrayNumeros = NumeroAleatorio.geraNumeros(SIZE);
-		
+		System.out.println("na hora de criado"+Arrays.toString(arrayNumeros));
 		
 		if(metodoDovetor == 1){
 			
 			arrayNumeros=ordenarCounting(arrayNumeros);
+			System.out.println("Depois do ordenarCounting"+Arrays.toString(arrayNumeros));
 			
 		}else{
 			if(metodoDovetor == 2){
-				
 				arrayNumeros=ordenarInsertionDecrescente(arrayNumeros);
+				System.out.println("Depois do Insertion"+Arrays.toString(arrayNumeros));
 			}
 		}
-		
-		
-		/////////////////////////////////////////////////////////////////////////////////////////
-		//Usar o array ordenado, irei implementar uma Interface supimpa
-		//System.out.println("Array antes counting: "+Arrays.toString(arrayNumeros));
-		//System.out.println("Array antes counting: "+Arrays.toString(arrayNumeros));
-		///////////////////////////////////////////////////////////////////////////////////////
-		
-		/////////////////////////////////////////////////////////////////////////////////////////
-		//Usar o array ordenado DECRESCENTE, irei implementar uma Interface supimpa
-		//System.out.println("Array antes InsertionDecrescente: "+Arrays.toString(arrayNumeros));
-		
-		//System.out.println("Array antes InsertionDecrescente: "+Arrays.toString(arrayNumeros));
-		///////////////////////////////////////////////////////////////////////////////////////
-		
+			
 		/*
 		 * Para ver os arrays antes e depois de ordenar
 		 * Só remover os comentários dos prints
@@ -221,7 +232,9 @@ public class RadixSort extends JFrame {
 		panel.repaint();
 		contentPane.repaint();
 		contentPane.validate();
+		labelAguarde.setText("PROCESSO CONCLUIDO!");
 		repaint();
+		
 		
 		//frame.setVisible(true);
 		
